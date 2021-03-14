@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Quiz</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src = "/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <!-- <div id="userName">
+        <input id="use-email" type="email">
+    </div> -->
+    <div id="container" class="grid">
+        <div id="quiz">
+            <h1>Quiz created with node.js</h1>
+            <hr style="margin-bottom: 20px">
+
+            <p id="question"></p>
+
+            <div class="buttons">
+                <button id="btn1"><span id="choice1"></span></button>
+                <button id="btn2"><span id="choice2"></span></button>
+                <button id="btn3"><span id="choice3"></span></button>
+                <button id="btn4" class="disp-none"><span id="choice4"></span></button>
+            </div>
+
+            <hr style="margin-top: 50px">
+            <footer>
+                <p id="progress" class="disp-none">Question x of y</p>
+            </footer>
+        </div>
+    </div>
+</body>
+<script src="client.js"></script>
+</html>
