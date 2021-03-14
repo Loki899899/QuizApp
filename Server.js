@@ -11,7 +11,8 @@ const express = require('express'),
     answersMedium = JSON.parse(fs.readFileSync('answers/answersMedium.json')),
     answersHard = JSON.parse(fs.readFileSync('answers/answersHard.json'))
 //console.log(JSON.parse(data))
-let scoreAndLevel = {}
+let data,
+    scoreAndLevel = {}
 app.use(express.static(__dirname + '/public'))
 
 io.on('connection', function(socket) {
@@ -23,6 +24,7 @@ io.on('connection', function(socket) {
         scoreAndLevel[socket.handshake.address] = {}
         scoreAndLevel[socket.handshake.address].level = 'easy'
         scoreAndLevel[socket.handshake.address].score = 0
+        scoreAndLevel[socket.handshake.address].choices = {}
         console.log(scoreAndLevel)
         //console.log(new Date().getTime())
     })
@@ -33,6 +35,7 @@ io.on('connection', function(socket) {
         scoreAndLevel[socket.handshake.address] = {}
         scoreAndLevel[socket.handshake.address].level = 'medium'
         scoreAndLevel[socket.handshake.address].score = 0
+        scoreAndLevel[socket.handshake.address].choices = {}
         console.log(scoreAndLevel)
     })
 
@@ -42,13 +45,16 @@ io.on('connection', function(socket) {
         scoreAndLevel[socket.handshake.address] = {}
         scoreAndLevel[socket.handshake.address].level = 'hard'
         scoreAndLevel[socket.handshake.address].score = 0
+        scoreAndLevel[socket.handshake.address].choices = {}        
         console.log(scoreAndLevel)
     })
 
     socket.on('choice', (choice, question) => {
         socket.emit('choice', choice)
+        scoreAndLevel[socket.handshake.address].choices[question] = choice
+        //fs.writeFileSync('userAnswers/userName.json',JSON.stringify(data), {flag:'a'})
         if(scoreAndLevel[socket.handshake.address].level === 'easy') {
-            if(choice === answersEasy['q'+question]) {
+            if(choice === answersEasy[question]) {
                 console.log('correct')
                 scoreAndLevel[socket.handshake.address].score += 1
             }
@@ -56,10 +62,19 @@ io.on('connection', function(socket) {
                 console.log('wrong')
             }
         }
+        console.log(scoreAndLevel)
         //fs.writeFileSync(,)
     })
 
     socket.on('ask_score', () => {
+        data = {
+            user: socket.handshake.address,
+            choices: scoreAndLevel[socket.handshake.address].choices
+        }
+        fs.writeFileSync(
+            'userAnswers/userAnswers.json',
+            JSON.stringify(data, null, 2), 
+            {flag:'a'})
         console.log('calc score and send')
         socket.emit('score', scoreAndLevel[socket.handshake.address].score)
     })

@@ -15,7 +15,7 @@ let questionsAndOptions,
     quizComplete = false
 
 option1.addEventListener('click', () => {
-    console.log(option1.innerHTML)
+    //console.log(option1.innerHTML)
     if(isLevelChoice) {
         socket.emit(option1.innerHTML)
         isLevelChoice = false
@@ -27,7 +27,7 @@ option1.addEventListener('click', () => {
 })
 
 option2.addEventListener('click', () => {
-    console.log(option2.innerHTML)
+    //console.log(option2.innerHTML)
     if(isLevelChoice) {
         socket.emit(option2.innerHTML)
         isLevelChoice = false
@@ -39,7 +39,7 @@ option2.addEventListener('click', () => {
 })
 
 option3.addEventListener('click', () => {
-    console.log(option3.innerHTML)
+    //console.log(option3.innerHTML)
     if(isLevelChoice) {
         socket.emit(option3.innerHTML)
         isLevelChoice = false
@@ -51,7 +51,7 @@ option3.addEventListener('click', () => {
 })
 
 option4.addEventListener('click', () => {
-    console.log(option4.innerHTML)
+    //console.log(option4.innerHTML)
     socket.emit('choice', option4.innerHTML, currentQuestion)
     currentQuestion += 1
     nextQuestion()
@@ -59,28 +59,28 @@ option4.addEventListener('click', () => {
 
 socket.on('Easy', (questions) => {
     questionsAndOptions = questions
-    console.log(questionsAndOptions)
+    //console.log(questionsAndOptions)
     showQuestions()
 })
 
 socket.on('Medium', (questions) => {
     questionsAndOptions = questions
-    console.log(questionsAndOptions)
+    //console.log(questionsAndOptions)
     showQuestions()
 })
 
 socket.on('Hard', (questions) => {
     questionsAndOptions = questions
-    console.log(questionsAndOptions)
+    //console.log(questionsAndOptions)
     showQuestions()
 })
 
 socket.on('choice', choice => {
-    console.log('answered '+choice)
+    //console.log('answered '+choice)
 })
 
 socket.on('score', (score) => {
-    console.log('get score')
+    //console.log('get score')
     quiz.setAttribute('class', 'disp-none')
     scoreMessage = document.createElement('h1')
     scoreMessage.innerHTML = 'Your score is ' + score 
@@ -92,7 +92,7 @@ function nextQuestion() {
     if(questionsAndOptions['question'+currentQuestion] === undefined) {
         socket.emit('ask_score')
     } else {
-        console.log(questionsAndOptions['question'+currentQuestion])
+        //console.log(questionsAndOptions['question'+currentQuestion])
         question.innerHTML = questionsAndOptions['question'+currentQuestion]
         option1.innerHTML = questionsAndOptions['choiceq'+currentQuestion].choice1
         option2.innerHTML = questionsAndOptions['choiceq'+currentQuestion].choice2
